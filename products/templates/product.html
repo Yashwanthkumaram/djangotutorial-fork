@@ -14,11 +14,11 @@
     <img src="data:image/jpeg;base64,{{question.image_a}}" class="card-img-top" alt="Product Image">
     <div class="card-body">
         <h5 class="card-title">{{ question.p_name }}</h5>
-        <p class="card-text">Short product description goes here.</p>
+        <p class="card-text">{{question.details}}.</p>
         <div class="d-flex justify-content-between align-items-center">
-            <span class="h5 mb-0">$99.99</span>
+            <span class="h5 mb-0">{{question.price}} Rs</span>
             <div>
-                <small class="text-muted">(4.5)</small>
+                <small class="text-muted">({{question.ratings}})</small>
             </div>
         </div>
     </div>
