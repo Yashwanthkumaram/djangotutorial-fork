@@ -1,0 +1,26 @@
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% if ans %}
+    <table class="table table-bordered text-center" >
+        <tr class="align-middle" >
+    <th>sem</th>
+    <th>AVG</th>
+    </tr>
+
+    {% for student  in ans %}
+    <tr class="align-middle" >
+    <td>{{student.result__sem}}</td> 
+    <td>{{student.sgpa}}</td>       
+    </tr>
+    {% endfor %}
+
+    </table>
+
+    {% block content %}
+    {% endblock %}
+
+{% else %}
+    <p>No polls are available.</p>
+{% endif %}
