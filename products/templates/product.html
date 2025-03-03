@@ -10,7 +10,7 @@
 
 {% for question in result %}
 
-<div class="card" style="max-width: 320px">
+<!-- <div class="card" style="max-width: 320px">
     <img src="data:image/jpeg;base64,{{question.image_a}}" class="card-img-top" alt="Product Image">
     <div class="card-body">
         <h5 class="card-title">{{ question.p_name }}</h5>
@@ -25,14 +25,67 @@
     <div class="card-footer d-flex justify-content-between bg-light">
         <button class="btn btn-primary btn-sm">Add to Cart</button>
     </div>
+</div> -->
+<!-- <li class="list-group-item">{{ question.p_name }}</li> -->
+    <!-- <li class="list-group-item"><a href="/categories/products/{{question.p_name}}/">{{ question.p_name }}</a></li> -->
+<!-- {% endfor %} -->
+</div>
+
+
+<!-- ---------------------------------- -->
+{% for page_obj in result %}
+
+
+<div class="card" style="max-width: 320px">
+    <img src="data:image/jpeg;base64,{{page_obj.image_a}}" class="card-img-top" alt="Product Image">
+    <div class="card-body">
+        <h5 class="card-title">{{ page_obj.p_name }}</h5>
+        <p class="card-text">{{page_obj.details}}.</p>
+        <div class="d-flex justify-content-between align-items-center">
+            <span class="h5 mb-0">{{page_obj.price}} Rs</span>
+            <div>
+                <small class="text-muted">({{page_obj.ratings}})</small>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer d-flex justify-content-between bg-light">
+        <button class="btn btn-primary btn-sm">Add to Cart</button>
+    </div>
 </div>
 <!-- <li class="list-group-item">{{ question.p_name }}</li> -->
     <!-- <li class="list-group-item"><a href="/categories/products/{{question.p_name}}/">{{ question.p_name }}</a></li> -->
 {% endfor %}
 </div>
 
+
+
+
+<!-- -------------------------------------- -->
+
+
+
+
+
+
 {% block content %}
 {% endblock %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">next</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+        {% endif %}
+    </span>
+</div>
 
 
 {% else %}

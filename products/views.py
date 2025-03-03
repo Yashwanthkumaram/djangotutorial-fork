@@ -5,6 +5,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.db.models import ExpressionWrapper , Sum ,Count,Avg, FloatField
 import base64
+from django.core.paginator import Paginator
 
 
 def resp (request ,element_id ):
@@ -75,10 +76,15 @@ def product (request ,cat_name ):
 
 
     
-            
+    paginator = Paginator(result, 1) 
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+
     
     context ={
-       "result": result , "category_list":category_list 
+       "result": result , "category_list":category_list ,
+       "page_obj":page_obj
     }
     
     return render(request, "product.html", context)

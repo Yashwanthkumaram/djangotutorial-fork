@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from .models import Employee ,Contact
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
+from django.core.paginator import Paginator
 
 
 
