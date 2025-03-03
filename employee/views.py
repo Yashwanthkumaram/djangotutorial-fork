@@ -60,7 +60,7 @@ def index(request):
     id = 0
 
     if request.GET.get('id', 'default') =='default':
-        employee_list = Employee.objects.all()
+        employee_list = Employee.objects.all().order_by('id')
     if request.GET.get('id', 'default') !='default':
         id = request.GET.get('id', 'default')
         employee_list = [Employee.objects.get(id= int(id))]
