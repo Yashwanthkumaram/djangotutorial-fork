@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Employee ,Contact
+from .models import Employee ,Contact ,Department ,Location
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
-from django.core.paginator import Paginator
 
 
 
@@ -24,13 +23,26 @@ def respond (request):
 def resp (request ,element_id ):
     try:
         employee_obj = Employee.objects.get(id=element_id)
+        department_obj = Department.objects.get(id=employee_obj.dept_id_id)
+        location_obj = Location.objects.get(id=employee_obj.location_id)
+
+
+
+
     except:
         return  HttpResponse(f"employee with this {element_id} is not present " )
     
     employee ={
         'name' : employee_obj.ename,
         'id': employee_obj.eid,
-        'Designation': employee_obj.designation
+        'Designation': employee_obj.designation,
+        'deparment': department_obj.dept_name,
+        'image' :  base64.b64encode(employee_obj.image).decode('utf-8'),
+        'location' : location_obj.loc_name,
+        'date' : employee_obj.date_of_joining,
+        'email':employee_obj.email
+
+
     }
 
     context ={
@@ -44,10 +56,18 @@ from django.http import HttpResponse
 
 
 def index(request):
-    employee_list = Employee.objects.all()
+    options = Employee.objects.all()
+    id = 0
+
+    if request.GET.get('id', 'default') =='default':
+        employee_list = Employee.objects.all().order_by('id')
+    if request.GET.get('id', 'default') !='default':
+        id = request.GET.get('id', 'default')
+        employee_list = [Employee.objects.get(id= int(id))]
+
     template = loader.get_template("index.html")
     context = {
-        "employee_list": employee_list ,
+        "employee_list": employee_list , "options":options ,'id':int(id)
     }
     return render(request, "index.html", context)
     

@@ -1,16 +1,53 @@
 {% load bootstrap5 %}
 {% bootstrap_css %}
 {% bootstrap_javascript %}
+{% load static %}
+
+<script src="{% static 'filter.js' %}"></script>
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+
+{% if options %}
+
+
+
+<label for="cars">Filter employee:</label>
+<select name="emp" id="emp" onchange="abc(value)">
+    <option value="default"   >All</option>
+    {% for question in options %}
+        
+         <option value={{question.id}} {% if id == question.id %} 
+         selected
+      {%endif%}s
+
+         >{{ question.ename}}</option>
+    {% endfor %}
+</select>
+{%endif%}
+
 
 {% if employee_list %}
-    <ul  class="list-group">
-    {% for question in employee_list %}
-        <li class="list-group-item"><a href="/emp/{{ question.id }}/">{{ question.ename }}</a></li>
+<table class="table table-bordered text-center" >
+    <tr class="align-middle" >
+    <th scope="col" >Name</th>
+    <th scope="col" >Eid</th>
+    <th scope="col">Designation</th>
+    </tr>
+    {% for employee in employee_list %}
+        
+        <tr class="align-middle" >
+        <td scope="col" > <a href="/emp/{{ employee.id }}/">{{employee.ename}}</a> </td> 
+        <td scope="col" >{{employee.id}}</td>      
+        <td scope="col" >{{employee.designation}}</td>      
+         
+        </tr>
+
     {% endfor %}
-    </ul>
+</table>
+
 {% else %}
     <p>No polls are available.</p>
 {% endif %}
 
 {% block content %}
 {% endblock %}
+<!-- ------------------------------- -->
