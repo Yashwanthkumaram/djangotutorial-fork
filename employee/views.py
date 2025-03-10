@@ -86,3 +86,21 @@ def query2(request):
     contact = Contact.objects.get(number=7678895)
     employee = Employee.objects.filter(id = contact.employee_id_id)
     return HttpResponse (employee)
+
+#----------------------------------------------------------------------------------
+
+from .models import Employee
+from rest_framework import permissions, viewsets
+
+from .serializers import  EmployeeSerializer
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = Employee.objects.all()
+    serializer_class = EmployeeSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
