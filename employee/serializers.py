@@ -1,12 +1,24 @@
 from rest_framework import serializers
-from .models import Employee ,Contact ,Department ,Location
-class EmployeeSerializer(serializers.ModelSerializer):
-    profile = Employee()
+from .models import Employee,  Department, Location
 
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
+
+
+class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['ename', 'email','designation','dept_id','location','image','date_of_joining','salary','experienceex']
+        fields = '__all__'
 
-  
+class DepartmentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Department
+        fields = '__all__'
 
 
+# class DepartmentNameSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Department
+#         fields = ['dept']

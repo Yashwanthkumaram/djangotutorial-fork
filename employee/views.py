@@ -90,7 +90,7 @@ def query2(request):
 #----------------------------------------------------------------------------------
 
 from .models import Employee
-from rest_framework import permissions, viewsets
+from rest_framework import viewsets
 
 from .serializers import  EmployeeSerializer
 
@@ -101,6 +101,25 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset = Employee.objects.all()
     serializer_class = EmployeeSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
+#-----------------------------------------
 
+from rest_framework import viewsets
+from rest_framework.response import Response
+from .models import Employee, Department
+from .serializers import EmployeeSerializer, DepartmentSerializer
+from rest_framework.decorators import action
+
+class DepartmentViewSet(viewsets.ModelViewSet):
+    queryset = Department.objects.all()
+    serializer_class = DepartmentSerializer
+    
+    @action(detail=True, methods=['get'])
+    def employees(self, request, pk=None):
+        # department = Department.objects.get(id=pk)
+        employees = Employee.objects.filter(dept_id=pk)
+        serializer = EmployeeSerializer(employees, many=True)
+        # return Response(employees)
+
+        return Response(serializer.data)
+       

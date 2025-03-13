@@ -78,4 +78,19 @@ def products(request):
     return HttpResponse( employee_list[0].P_id)
 
 
+from rest_framework import viewsets
+from rest_framework.response import Response
+from .models import Product ,Category ,Brand
+from .serializers import ProductSerializer , CategorySerializer ,BrandSerializer
 
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+
+class BrandViewSet(viewsets.ModelViewSet):
+    queryset = Brand.objects.all()
+    serializer_class =BrandSerializer
