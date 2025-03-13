@@ -4,6 +4,7 @@ from .models import Product ,Category
 from django.core.exceptions import ObjectDoesNotExist
 from django.template import loader
 from django.db.models import ExpressionWrapper , Sum ,Count,Avg, FloatField
+import base64
 
 
 def resp (request ,element_id ):
@@ -26,39 +27,58 @@ def resp (request ,element_id ):
 from django.http import HttpResponse
 
 
+# def index(request):
+#     # I couldn't directly do a self join and I will Mobiles dynamically
+#     leaf = Category.objects.get(cat_name= 'Mobiles')
+#     category_list = Category.objects.all()
+#     children_categories = []
+#     for category in category_list:
+#         if category.cat_id == leaf.pat_id:
+#             children_categories.append(category.cat_name)
+
+#     context = {
+#         "children_categories": children_categories ,
+#     }
+#     return render(request, "list_cat.html", context)
+
+    
 def index(request):
     # I couldn't directly do a self join and I will Mobiles dynamically
-    leaf = Category.objects.get(cat_name= 'Mobiles')
-    category_list = Category.objects.all()
-    children_categories = []
-    for category in category_list:
-        if category.cat_id == leaf.pat_id:
-            children_categories.append(category.cat_name)
-
+    employee_list = Category.objects.all()
     context = {
-        "children_categories": children_categories ,
+        "employee_list": employee_list ,
     }
-    return render(request, "list_cat.html", context)
+    return render(request, "cate.html", context)
+  
 
-    
 
-
-def product (request ):
+def product (request ,cat_name ):
     try:
-        employee_obj = Product.objects.get(p_id ='P001')
+        category = Category.objects.get(cat_name = cat_name)
+        products = Product.objects.all()
+        category_list = Category.objects.filter(pat_id = category.cat_id)
+        category_list |= Category.objects.filter(cat_id = category.cat_id)
+
     except:
-        return  HttpResponse(f"employee with this is not present " )
+        return  HttpResponse(f"No products or Invalid category " )
+    img =[]
+    result = []
+    for product in products:
+        for cate in category_list:
+            if (product.cat_id_id == cate.cat_id) :
+                result.append(product)
+                product.image_a = base64.b64encode(product.image).decode('utf-8')
+
+
+
+                
+
+
     
-    employee ={
-        'name' : employee_obj.p_name,
-        'id' : employee_obj.p_id,
-
-
-       
-    }
-
+            
+    
     context ={
-        'employee' : employee
+       "result": result , "category_list":category_list 
     }
     
     return render(request, "product.html", context)

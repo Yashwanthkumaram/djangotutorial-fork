@@ -22,6 +22,8 @@ class Product(models.Model):
     p_name = models.CharField(max_length=20)
     cat_id = models.ForeignKey(Category, on_delete=models.CASCADE, to_field='cat_id')
     b_id = models.ForeignKey(Brand, on_delete=models.CASCADE, to_field='b_id')
+    image = models.BinaryField(null=True)
+
 
     def __str__(self):
         return self.p_name
