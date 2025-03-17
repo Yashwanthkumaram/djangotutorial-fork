@@ -29,7 +29,7 @@ class Employee(models.Model):
     experience = models.SmallIntegerField()  
     dept_id = models.ForeignKey(Department, on_delete=models.CASCADE) 
     location = models.ForeignKey(Location, on_delete=models.CASCADE) 
-    image = models.BinaryField(null=True)
+    image_url = models.URLField( null=True)
     date_of_joining = models.DateField(null=True)
  
 
